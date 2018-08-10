@@ -36,12 +36,12 @@ def graph():
                 val = 3
             elif time == "six_month":
                 if (dt.now().month - 6) < 0:
-                    start = dt(dt.now().year-1, (dt.now().month -6)%12, dt.now().day)
+                    start = dt(dt.now().year - 1, (dt.now().month -6)%12, dt.now().day)
                 else:
                     start = dt(dt.now().year, (dt.now().month -6)%12, dt.now().day)
                 val = 6
             elif time == "twelve_month":
-                start = dt(dt.now().year-1, dt.now().month, dt.now().day)
+                start = dt(dt.now().year - 1, dt.now().month, dt.now().day)
                 val = 12
 
             end = dt(dt.now().year, dt.now().month, dt.now().day)
