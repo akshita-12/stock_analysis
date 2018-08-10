@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "en">
+<div class = "info">
+  <div class = "tables">
+    <table id = "t01">
+      <tr>
+        <th> Previous High / Low </th>
+        <th> {{val | safe}} Month High / Low </th>
+      </tr>
+      <tr>
+        <td> {{day_high | safe}} / {{day_low| safe}} </td>
+        <td> {{month_high | safe}} / {{month_low | safe}} </td>
+      </tr>
+    </table>
+  </div>
+  <div class = "tables">
+    <table id = "t02">
+      <tr>
+        <th> {{val | safe}} Month Return </th>
+        <th> Simple Moving Average </th>
+      </tr>
+      <tr>
+        <td> {{return_month | safe}}% </td>
+        <td> {{moving_avg | safe}} </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</html>

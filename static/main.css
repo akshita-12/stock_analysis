@@ -1,0 +1,62 @@
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
+.container{
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  background-color: #00cca3;
+  color: #99ffeb;
+  text-align: center;
+  overflow: hidden;
+}
+
+.container h1{
+  margin-top: 50px;
+  font-family: Arial;
+}
+
+.output{
+  display: inline-block;
+  color: #30c77f;
+  padding: 40px;
+}
+
+
+ .output text{
+   color : #99ffeb;
+ }
+
+ .info{
+   margin-top: 20px;
+   color:  #99ffeb;
+ }
+
+
+ div.tables{
+    display: inline-block;
+    width: 500px;
+    height: 200px;
+    padding: 20px;
+  }
+
+  table{
+   border: 0px solid blue;
+ }
+
+ th{
+   padding: 25px;
+   background-color: #00004d;
+   color: #99ffeb;
+ }
+
+ td{
+   padding: 10px;
+ }
+
+ tr{
+   background-color: #e6ffff;
+   color: black;
+ }

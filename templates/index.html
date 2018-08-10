@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<title> Stock Market Analysis </title>
+<head>
+  <link href = "../static/main.css" rel = "stylesheet">
+</head>
+  <body>
+    <div class = "container">
+      <h1> Stock Market Analysis</h1>
+      <form action = "{{url_for('graph')}}" method = 'POST'>
+        <b>Symbol:</b> <input type = "text" placeholder = "Enter company symbol/ticker" name = "ticker">
+        <b>Time duration:</b> <select id = "time" name = "time_dur">
+          <option value = "one_month"> Past month </option>
+          <option value = "three_month"> Past 3 months </option>
+          <option value = "six_month"> Past 6 months </option>
+          <option value = "twelve_month"> Past year </option>
+        </select>
+        <b>Chart Type:</b><select id = "chart" name = "chart_type">
+          <option value = "line"> Line Chart </option>
+          <option value = "candle"> Candlestick Chart </option>
+        </select>
+        <button type = "submit"> Submit </button>
+      </form>
+      <b>{{text | safe}} </b>
+        <div class = "output">
+          {%block content%}
+          <link rel="stylesheet" href={{cdn_css | safe}} type="text/css">
+          <script type="text/javascript" src={{cdn_js | safe}}></script>
+          {{script1 | safe}}
+          {{div1 | safe}}
+          {% include extra ignore missing %}
+          {%endblock%}
+        </div>
+    </div>
+  </body>
+</html>
