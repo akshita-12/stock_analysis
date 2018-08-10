@@ -30,7 +30,7 @@ def graph():
                 val = 1
             elif time == "three_month":
                 if (dt.now().month - 3) < 0:
-                    start = dt(dt.now().year, (dt.now().month -3)%12, dt.now().day)
+                    start = dt(dt.now().year - 1, (dt.now().month -3)%12, dt.now().day)
                 else:
                     start = dt(dt.now().year, (dt.now().month -3)%12, dt.now().day)
                 val = 3
