@@ -11,38 +11,46 @@ from datetime import datetime as dt
 app = Flask(__name__)
 
 
+def duration(time):
+    if time == "one_month":
+        if (dt.now().month - 1) < 0:
+            start = dt(dt.now().year - 1, (dt.now().month -1)%12, dt.now().day)
+        else:
+            start = dt(dt.now().year, (dt.now().month -1)%12, dt.now().day)
+        val = 1
+    elif time == "three_month":
+        if (dt.now().month - 3) < 0:
+            start = dt(dt.now().year - 1, (dt.now().month -3)%12, dt.now().day)
+        else:
+            start = dt(dt.now().year, (dt.now().month -3)%12, dt.now().day)
+        val = 3
+    elif time == "six_month":
+        if (dt.now().month - 6) < 0:
+            start = dt(dt.now().year - 1, (dt.now().month -6)%12, dt.now().day)
+        else:
+            start = dt(dt.now().year, (dt.now().month -6)%12, dt.now().day)
+        val = 6
+    elif time == "twelve_month":
+        start = dt(dt.now().year - 1, dt.now().month, dt.now().day)
+        val = 12
+
+    return val, start
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route("/analysis-graph", methods = ['POST'])
 def graph():
+    global df
     if request.method == 'POST':
         try:
             symbol = request.form["ticker"]
             time = request.form.get('time_dur')
             chart = request.form.get('chart_type')
-            if time == "one_month":
-                if (dt.now().month - 1) < 0:
-                    start = dt(dt.now().year - 1, (dt.now().month -1)%12, dt.now().day)
-                else:
-                    start = dt(dt.now().year, (dt.now().month -1)%12, dt.now().day)
-                val = 1
-            elif time == "three_month":
-                if (dt.now().month - 3) < 0:
-                    start = dt(dt.now().year - 1, (dt.now().month -3)%12, dt.now().day)
-                else:
-                    start = dt(dt.now().year, (dt.now().month -3)%12, dt.now().day)
-                val = 3
-            elif time == "six_month":
-                if (dt.now().month - 6) < 0:
-                    start = dt(dt.now().year - 1, (dt.now().month -6)%12, dt.now().day)
-                else:
-                    start = dt(dt.now().year, (dt.now().month -6)%12, dt.now().day)
-                val = 6
-            elif time == "twelve_month":
-                start = dt(dt.now().year - 1, dt.now().month, dt.now().day)
-                val = 12
+
+            val, start = duration(time)
 
             end = dt(dt.now().year, dt.now().month, dt.now().day)
 
@@ -61,19 +69,10 @@ def graph():
             df["middle"] = (df.open + df.close)/2
             df["height"] = abs(df.close - df.open)
 
-            day_high = round(df.high[-1],2)
-            day_low = round(df.low[-1],2)
-            month_high = round(max(df.high),2)
-            month_low = round(min(df.low),2)
-
-            return_month = round(((df.close[-1] - df.close[0])/df.close[0])*100,2)
-            moving_avg = round(df.close.mean(),2)
-
             highest = max(df.close)
             lowest = min(df.close)
 
-
-            p = figure(x_axis_type = 'datetime', width = 1500, height = 400, background_fill_color = "#00004d")
+            p = figure(x_axis_type = 'datetime', plot_width = 1600, plot_height = 500, background_fill_color = "#00004d", sizing_mode = "scale_both", toolbar_location="above")
             p.title.text = symbol+" Chart"
             p.grid.grid_line_alpha = 0.3
             hours_12 = 12*60*60*1000
@@ -95,8 +94,10 @@ def graph():
             elif chart == "line":
                 p.line(x = 'x', y = 'c0', color = "green", line_width = 2, name = "seg", source = cds)
 
-            high_label = Label(x = df.index[df.close == highest][0] , y = highest, text = "Highest", text_color = "white")
-            low_label = Label(x = df.index[df.close == lowest][0], y = lowest, text = "Lowest", text_color = "white")
+            high_label = Label(x = df.index[df.close == highest][0] , y = highest, x_offset = 5, y_offset = -5, text = "H",
+            text_color = "white", text_font_size = "10pt", text_font_style = "bold")
+            low_label = Label(x = df.index[df.close == lowest][0], y = lowest, text = "L",
+            text_color = "white", text_font_size = "10pt", text_font_style = "bold")
             p.add_layout(high_label)
             p.add_layout(low_label)
 
@@ -104,12 +105,16 @@ def graph():
 
             cdn_js = CDN.js_files[0]
             cdn_css = CDN.css_files[0]
+
             return render_template("index.html", script1 = script1, div1 = div1, cdn_css = cdn_css, cdn_js = cdn_js,
-            day_high = day_high, day_low = day_low, month_high = month_high, month_low = month_low, val = val,
-            return_month = return_month, moving_avg = moving_avg, extra = "info.html")
+            day_low = round(df.low[-1],2), day_high = round(df.high[-1],2), month_low = round(min(df.low),2),
+            month_high = round(max(df.high),2), return_month = round(((df.close[-1] - df.close[0])/df.close[0])*100,2),
+            moving_avg = round(df.close.mean(),2), extra = "info.html", val = val)
 
         except:
             return render_template("index.html", text = "Please enter a valid IEX ticker.")
+
+
 
 if __name__ == "__main__":
     app.run(debug = True)

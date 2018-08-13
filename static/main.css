@@ -34,11 +34,13 @@ html, body{
    color:  #99ffeb;
  }
 
-
+/* For width more than 620px*/
+@media only screen and (min-width:620px) {
  div.tables{
+    margin-top: 300px;
     display: inline-block;
-    width: 500px;
-    height: 200px;
+    width: 40%;
+    height: 20%;
     padding: 20px;
   }
 
@@ -47,7 +49,7 @@ html, body{
  }
 
  th{
-   padding: 25px;
+   padding: 20px;
    background-color: #00004d;
    color: #99ffeb;
  }
@@ -60,3 +62,57 @@ html, body{
    background-color: #e6ffff;
    color: black;
  }
+}
+
+/* For width less than 620px*/
+@media
+only screen and (max-width: 620px),
+(min-device-width: 620px) and (max-device-width: 620px)  {
+
+  /* Force table to not be like tables anymore */
+	table, th, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+  table#t01 tr{
+  	margin-top: 100px;
+  }
+
+
+	tr {width: 100%; background-color: lightcyan; border: 1px solid #cccccc; }
+
+	td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eeeeee;
+		position: relative;
+		color: black;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: relative;
+		/* Top/left values mimic padding */
+		top: 0px;
+		left: 0px;
+		width: 70%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	/*
+	Label the data
+	*/
+  table#t01 td:nth-of-type(1):before { background-color: #00004d; color: #99ffeb; content: "Previous High / Low"; }
+	table#t01 td:nth-of-type(2):before { background-color: #00004d; color: #99ffeb; content: " Month High / Low"; }
+	table#t02 td:nth-of-type(1):before { background-color: #00004d; color: #99ffeb; content: " Month Return"; }
+	table#t02 td:nth-of-type(2):before { background-color: #00004d; color: #99ffeb; content: "Simple Moving Average"; }
+
+}
