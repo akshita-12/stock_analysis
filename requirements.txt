@@ -7,7 +7,7 @@ gunicorn==19.9.0
 idna==2.7
 itsdangerous==0.24
 Jinja2==2.10
-lxml==4.2.4
+lxml==4.6.5
 MarkupSafe==1.0
 numpy==1.15.0
 packaging==17.1
